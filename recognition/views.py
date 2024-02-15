@@ -1,12 +1,11 @@
-import subprocess
-
-import whisper
 from django.shortcuts import render
 from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
+from .deepgram_request import transcribe_audio
 from .models import AudioFile, AudioSerializer
+from .utils import extraer_palabras, letras_a_numero
 
 
 @api_view(['POST'])
@@ -16,13 +15,8 @@ def recognize_audio(request):
         if serializer.is_valid():
             file = serializer.save()
             update_file = AudioFile.objects.get(pk=file.pk)
-
             file_instance = update_file.audio
-            # text = transcribe_audio(file_instance.path)
-            model = whisper.load_model("base")
-            filename = file_instance.path
-            result = model.transcribe(filename)
-            text = result["text"]
+            text = transcribe_audio(file_instance.path)
             update_file.transcription = text
             update_file.save()
             data = AudioSerializer(update_file).data

@@ -19,7 +19,8 @@ def transcribe_audio(AUDIO_FILE):
         options = PrerecordedOptions(
             model="nova-2",
             smart_format=True,
-            language="es"
+            language="es-419",
+            numerals=True,
         )
 
         response = deepgram.listen.prerecorded.v("1").transcribe_file(payload, options)
@@ -32,6 +33,7 @@ def transcribe_audio(AUDIO_FILE):
         return transcription
 
     except Exception as e:
+        print(e)
         return f"Exception: {e}"
 
 
