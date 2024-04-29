@@ -6,7 +6,7 @@ from deepgram import DeepgramClient, FileSource, PrerecordedOptions
 
 def transcribe_audio(AUDIO_FILE):
     try:
-        API_KEY = "86fce1189295c598f4fe347de1f656c330b17f59"
+        API_KEY = ""
         deepgram = DeepgramClient(API_KEY)
 
         with open(AUDIO_FILE, "rb") as file:
